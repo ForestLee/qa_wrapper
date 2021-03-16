@@ -24,7 +24,7 @@ public class QaVectorController {
         log.setLevel(Level.ALL);
     }
 
-    // for test
+    // for testing
     @RequestMapping("/helloworld")
     public String helloWorld() {
         return "helloworld";
