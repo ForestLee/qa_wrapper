@@ -1,7 +1,5 @@
 package com.forest.data;
 
-import com.alibaba.fastjson.JSON;
-
 import java.io.*;
 import java.util.*;
 
@@ -28,7 +26,7 @@ public class DataProcess {
             e.printStackTrace();
         }
 
-        labelsMap = parseMapJson(labelsFile);
+        labelsMap = loadLabelsFile(labelsFile);
     }
 
     public List<Integer> str2index(String text) {
@@ -63,7 +61,31 @@ public class DataProcess {
         return labelsMap.get(String.valueOf(index));
     }
 
-    private Map<String, String> parseMapJson(String filepath) {
+//    private Map<String, String> loadLabelsFile(String filepath) {
+//        Map<String, String> maps = new HashMap<String, String>();
+//        BufferedReader reader = null;
+//        String laststr = "";
+//        try {
+//            FileInputStream fileInputStream = new FileInputStream(filepath);
+//            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+//            reader = new BufferedReader(inputStreamReader);
+//            String tempString = null;
+//            while ((tempString = reader.readLine()) != null) {
+//                String retval[] = tempString.split("\t");
+//                maps.put(retval[1], retval[0]);
+//            }
+//            reader.close();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return maps;
+//    }
+
+    private Map<String, String> loadLabelsFile(String filepath) {
+        Map<String, String> maps = new HashMap<String, String>();
         BufferedReader reader = null;
         String laststr = "";
         try {
@@ -71,8 +93,10 @@ public class DataProcess {
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             reader = new BufferedReader(inputStreamReader);
             String tempString = null;
+            int i = 0;
             while ((tempString = reader.readLine()) != null) {
-                laststr += tempString;
+                String s = tempString.replaceAll("\r|\n", "");
+                maps.put(String.valueOf(i++), s);
             }
             reader.close();
         } catch (FileNotFoundException e) {
@@ -80,10 +104,9 @@ public class DataProcess {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Map<String, String> maps = (Map<String, String>) JSON.parse(laststr);
+
         return maps;
     }
-
 
     public static void main(String[] args) throws java.lang.Exception {
         String msg = "Hello 你好!";

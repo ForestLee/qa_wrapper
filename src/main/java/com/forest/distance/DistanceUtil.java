@@ -113,12 +113,16 @@ public class DistanceUtil {
     private Double getSimilarity(Double vect[], Double means[], int start) {
         int n = vectDim;
 
-        double tmp = 0.0;  //内积
+        double inProduct = 0.0;  //内积
         for (int i = 0; i < n; i++) {
-            tmp += vect[i] * means[i];
+            inProduct += vect[i] * means[i];
         }
 
-        return 1.0 - tmp / (getMold(vect) * meanMolds[start]);
+        Double vectMold = getMold(vect);
+        Double c = vectMold * meanMolds[start];
+        Double cosineDistance = inProduct / c;
+        cosineDistance = 1.0 - cosineDistance;
+        return cosineDistance;
     }
 
 }
