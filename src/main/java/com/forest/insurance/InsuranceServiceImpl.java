@@ -40,7 +40,7 @@ public class InsuranceServiceImpl implements InsuranceService {
     private List<Double> distances = null;
 
 
-    @Override
+    //@Override
     public InsuranceResponse predict(InsuranceRequest request) {
         if (isStart == false) {
             isStart = true;
@@ -50,11 +50,11 @@ public class InsuranceServiceImpl implements InsuranceService {
             String resourcePath = uri.getPath();
             dataProcess = new DataProcess(resourcePath + wordsFile, resourcePath + labelsFile, sentenceLen);
             distanceUtil = new DistanceUtil(resourcePath + vectorsFile, vectDim, labelNum, threshold);
-            distances = new ArrayList<>(1);
+            distances = new ArrayList<Double>(1);
         }
         if (request != null) {
             String text = request.getText();
-            if (!text.isEmpty()) {
+            if (!(text == null || text.length() == 0)) {
                 List<Integer> textIndexs = dataProcess.str2index(text);
                 textIndexs = dataProcess.padding(textIndexs);
 //                textIndexs.clear();
